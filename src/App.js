@@ -1,14 +1,12 @@
 import './App.css';
-
+import Profile from "./Profile/Profile.js"
 
 function App() {
   return (
     <div className="App">
       
       <h1>Calendar Project</h1>
-      <p>Hellllo</p>
-      <div>Goodbye</div>
-      <div>test</div>
+      <Profile/>
     </div>
   );
 }
