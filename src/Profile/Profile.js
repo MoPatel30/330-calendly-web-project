@@ -1,27 +1,31 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import "./Profile.css"
+import Schedule from '../Schedule/Schedule';
 
-export class Profile extends Component {
-    constructor(){
-        //not sure which other things we need for a profile this is just generic for now
-        super();
-        this.state = {
-            name:"Fake Name",
-            title:'admin',
+function Profile() {
+    const [name,setName] = useState("Fake Name");
+    const [title,setTitle] = useState("Admin");
+    const [showCal,setShowCal] = useState(false);
+    
+
+        function displayCalendar(){
+            setShowCal(!showCal);
         }
-    }
-
-    render() {
+    
         return (
             <div>
-                <h1>{this.state.name}</h1>
-                <p>Position: {this.state.title}</p>
-
-                <button className = "styled-btn">View Schedule</button> 
+                <h1>{name}</h1>
+                <p>Position: {title}</p>
+                {showCal ?
+                <Schedule />
+                :
+                <p></p>
+                }   
+                <button className = "styled-btn" onClick={displayCalendar} >View Schedule</button> 
             </div>
         )
-    }
-}
+}   
+
 
 export default Profile
 
