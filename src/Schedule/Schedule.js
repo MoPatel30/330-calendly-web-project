@@ -6,6 +6,7 @@ import './Schedule.css';
 function Schedule() {
     
     const[date,setDate] = useState(new Date());
+    const[openning,setOpenning] = useState(["12:30","1:15","6:45"])
     console.log(date);
     
     
@@ -22,6 +23,14 @@ function Schedule() {
                     </div>
                 <div className = "simpleBorder">
                         Selected Date: {date.toUTCString()}
+                        <br />
+                        Opennings: {openning.map(time => 
+                            
+                            <div>
+                                 {time}
+                            </div>
+                        )}
+
                 </div>
             </div>
         )
