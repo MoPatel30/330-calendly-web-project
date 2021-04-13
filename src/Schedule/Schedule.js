@@ -23,14 +23,6 @@ function Schedule() {
                     </div>
                 <div className = "simpleBorder">
                         Selected Date: {date.toUTCString()}
-                        <br />
-                        Opennings: {openning.map(time => 
-                            
-                            <div>
-                                 {time}
-                            </div>
-                        )}
-
                 </div>
             </div>
         )

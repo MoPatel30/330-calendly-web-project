@@ -17,12 +17,6 @@ function App({username,userInfo}) {
           <Login />
         </div>
       )
-
-
-
-
-
-
       }
     </div>
   );

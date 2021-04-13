@@ -1,6 +1,14 @@
+
 .styled-btn{
     border: 1px solid black;
     font-weight: 900;
     color: blue;
     background-color: antiquewhite;
+}
+.edit-form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
 }
