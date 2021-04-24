@@ -1,79 +1,58 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect} from 'react'
+import { db } from "../firebase"
+import {connect} from "react-redux"
 import "./Profile.css"
 import Schedule from '../Schedule/Schedule';
+import moment from 'moment';
 
-function Profile() {
-    const [schedule, editSchedule] = useState(true)
-    const [timings, setTimings] = useState(["9:00 - 10:00 -> Class"])
+function Profile({username,email}) {
+    const [name,setName] = useState(username)
     
-     // will convert to JS object later
-     const [startingHour, setStartingHour] = useState(0)
-     const [startingMinutes, setStartingMinutes] = useState(0)
-     const [endingHour, setEndingHour] = useState(0)
-     const [endingMinutes, setEndingMinutes] = useState(0)
-     const [task, setTask] = useState("")
 
-     function showSchedule(){
-        editSchedule(!schedule)
-    }
 
-        function addToSchedule(){
-            const newTask = `${startingHour}:${startingMinutes} - ${endingHour}:${endingMinutes} -> ${task}`
-            
-            setTimings([...timings, newTask])
-            editSchedule(!schedule)
-        }
-    
+
+     useEffect(() => {
+        var docRef = db.collection("users").doc(email);
+
+        docRef.get().then((doc) => {
+            if (doc.exists) {
+                console.log("Document data:", doc.data());
+                setName(doc.data().name)
+                
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+            }
+        }).catch((error) => {
+            console.log("Error getting document:", error)
+        })
+
+    }, [])
+
+
+       
         return (
             <div>
-                <h1>John Doe</h1>
+                <h1>{name}</h1>
             <h3>Occupation: Student at Loyola University Chicago</h3>
             
-                {schedule ? (
-                <div>
+                
+            <div>
                 <Schedule />
-
-                <div>
-                {timings.map(timing => (
-                    <div>
-                        <p>{timing}</p>
-                    </div>
-                                        )
-                            )
-                }
-                <button onClick = {showSchedule}>Edit Schedule</button>
-            </div>
             </div>
 
-         ):(
-            <div className = "edit-form">
-                    <p>Edit your schedule</p>
-                    <label>Starting Hour</label>
-                    <input onChange = {(e) => setStartingHour(e.target.value)} type = "number" max = "23" min = "0"></input>
-
-                    <label>Starting Minute</label>
-                    <input onChange = {(e) => setStartingMinutes(e.target.value)} type = "number" max = "59" min = "0"></input>
-
-                    <label>Ending Hour</label>
-                    <input onChange = {(e) => setEndingHour(e.target.value)} type = "number" max = "23" min = "0"></input>
-
-                    <label>Ending Minute</label>
-                    <input onChange = {(e) => setEndingMinutes(e.target.value)} type = "number" max = "59" min = "0"></input>
-
-                    <label>Task</label>
-                    <input onChange = {(e) => setTask(e.target.value)} type = "text"></input>
-
-                    <button onClick = {showSchedule}>Cancel</button>
-                    <button onClick = {addToSchedule}>Add time period</button>
-                </div>
-         )
-            } 
+        
+            
            
             </div>
         
         )
 }   
+const mapStateToProps = (state) => ({
+    username: state.username,
+    email: state.email,
+    userInfo: state.userInfo
+  })
 
-
-export default Profile
+  export default connect(mapStateToProps)(Profile)
 

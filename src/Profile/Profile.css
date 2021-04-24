@@ -12,3 +12,11 @@
     flex-direction: column;
 
 }
+.slot{
+    border: 1px solid black;
+    border-radius: 5%;
+    width:100%;
+    height:100%;
+    margin-bottom:4%;
+    background: transparent;
+}
