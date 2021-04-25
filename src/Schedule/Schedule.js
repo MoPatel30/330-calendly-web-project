@@ -3,8 +3,13 @@ import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
 import './Schedule.css';
 import moment from 'moment'
+import {connect} from "react-redux"
+import { db } from "../firebase"
+import firebase from "firebase"
 
-function Schedule() {
+import { $CombinedState } from 'redux';
+
+function Schedule({email}) {
     const [schedule, editSchedule] = useState(true)
     const[date,setDate] = useState(new Date());
     const[openning,setOpenning] = useState(["12:30","1:15","6:45"])
@@ -31,10 +36,39 @@ function Schedule() {
         setTimeSlots(createSlots('8:00 AM', '6:00 PM'));
 
     }, [])
+
+
     function showSchedule(){
         editSchedule(!schedule)
     }
     
+    function getValues(){
+        const userRef = db.collection("users")
+
+            var form = document.getElementById('timeList')[0];
+            var selected = [];
+            //Gets all selected values... want to store this in database 
+            for (var option of document.getElementById('timeList').options)
+            {
+                if (option.selected) {
+                    selected.push(option.value);
+                }
+            }
+            //Create a new 'date' object with appointments
+            userRef.doc(email).set({
+                [date.toUTCString().substring(0,16)]: selected
+            },{ merge: true })
+
+
+
+
+
+
+
+
+
+            alert(date + selected);
+    }   
         
         return (
             <div>
@@ -47,18 +81,18 @@ function Schedule() {
                         value = {date}
                         onChange={setDate}
                     />     
-                <button onClick = {showSchedule}>Edit Schedule</button>
+                <button onClick = {showSchedule}>Select Times</button>
                 </div>
                 
                 ):(
 
                 <div>
             <h2>Select Available Times:</h2>
-            <select multiple="yes" size={timeSlots.length + 1}>
+            <select id ="timeList" multiple="yes" size={timeSlots.length + 1}>
             {timeSlots.map((time,index) =>{
                 if(timeSlots[index + 1]){
                     return(
-                        <option className = "slot">
+                        <option value={timeSlots[index] + ' - ' + timeSlots[index + 1]} className = "slot">
                             {timeSlots[index] + ' - ' + timeSlots[index+1]}
                         </option>
                     )
@@ -70,8 +104,11 @@ function Schedule() {
                 }
                 
                 })}
+                
             </select>
-            <button onClick = {showSchedule}>Edit Schedule</button>
+            
+            <button onClick = {showSchedule}>Back</button>
+            <button onClick ={() => getValues()}>Enter Availibility</button>
             </div>
 
                 )}
@@ -81,5 +118,10 @@ function Schedule() {
         )
     
 }
+const mapStateToProps = (state) => ({
+    username: state.username,
+    email: state.email,
+    userInfo: state.userInfo
+  })
 
-export default Schedule
+export default connect(mapStateToProps)(Schedule)
