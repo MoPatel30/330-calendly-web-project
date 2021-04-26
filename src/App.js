@@ -14,12 +14,12 @@ function App({username,userInfo}) {
       <Router>
         <div>
           <header >
-            <h1>iCalendar
+            <h1 className="title">iCalendar
               <br/>Hello, {username}
               </h1>
             
-            <Link to="/find" style={{color:"white"}}>Find a User!</Link>
-            <Link to="/profile" style={{color:"white"}}>Make Opennings!</Link>
+            <Link className ="optionBox" to="/find" >Find a User!</Link>
+            <Link className ="optionBox" to="/profile" >Make Opennings!</Link>
             <Link to="/profile"> 
               <a>
                 <img className="home-pro-pic" alt="profile pic" src={userInfo.photoURL} />
