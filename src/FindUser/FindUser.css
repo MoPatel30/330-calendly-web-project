@@ -1,0 +1,22 @@
+.user-board{
+    width:60%;
+    display: flex;
+    border: 1px solid black;
+    background-color: white;
+    border-radius: 0.4rem;
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+    transition: 200ms ease-out;
+}
+
+.user-board:hover{
+    transform: scale(1.02);
+}
+.profile-pic{
+    border-radius: 50%;
+    height: 65%;
+    margin-top: 1rem;
+}
+.img-container{
+    height:100px;
+}
