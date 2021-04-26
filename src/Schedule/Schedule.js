@@ -64,16 +64,12 @@ function Schedule({email}) {
 
 
 
-
-
-
-            alert(date + selected);
     }   
         
         return (
             <div>
                 <div className = "simpleBorder">
-                        Selected Date: {date.toUTCString().substring(0,16)}
+                        {date.toUTCString().substring(0,16)}
                 </div>
                 {schedule ? (
                 <div className="calendarPos">

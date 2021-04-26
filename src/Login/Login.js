@@ -38,8 +38,8 @@ export const Login = (props) => {
                             console.log("No such document!");
                             db.collection("users").doc(result.user.email).set({
                                 name: result.user.displayName,
-                                display_name: result.user.displayName
-                                
+                                display_name: result.user.displayName,
+                                pic: result.user.photoURL
 
                             })
                             .then(() => {

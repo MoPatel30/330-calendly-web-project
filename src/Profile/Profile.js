@@ -10,7 +10,7 @@ function Profile({username,email}) {
     
 
 
-
+    
      useEffect(() => {
         var docRef = db.collection("users").doc(email);
 
@@ -33,9 +33,9 @@ function Profile({username,email}) {
        
         return (
             <div>
-                <h1>{name}</h1>
-            <h3>Occupation: Student at Loyola University Chicago</h3>
-            
+                <h1>Create Your Opennings!</h1>
+                <h2>Pick A Date</h2>
+
                 
             <div>
                 <Schedule />

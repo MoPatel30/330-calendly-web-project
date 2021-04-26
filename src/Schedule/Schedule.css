@@ -1,8 +1,11 @@
 .simpleBorder{
-    width:50%; 
-    border: 10px white;
+    width:fit-content; 
+    background-color: aliceblue;
+    padding: 2%;
+    border-radius: 2rem;
+    border: 1px black;
     box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
-    margin: 0 auto;
+    margin-bottom: 1rem;
 }
 .react-calendar{
     margin:0 auto;

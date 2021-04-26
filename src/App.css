@@ -2,3 +2,14 @@
   text-align: center;
 
 }
+.home-pro-pic{
+  border-radius: 50%;
+  border:2px solid whitesmoke;
+  height:50%;
+}
+header{
+  display: flex;
+  border-bottom: 2px solid black;
+  background: grey;
+  font-size: 1rem;
+}
