@@ -10,6 +10,15 @@
 .react-calendar{
     margin:0 auto;
 }
+.schedBTN{
+    background-color: transparent;
+    border: 1px solid black;
+    margin-top: 2%;
+    margin-left: 1%;
+    margin-bottom: 1rem;
+    border-radius: 1rem;
+    padding:1%;
+}
 
 .slot{
     border: 0px solid black;

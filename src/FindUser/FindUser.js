@@ -4,6 +4,13 @@ import './FindUser.css'
 function FindUser() {
    
     const [users,setUsers] = useState([]);
+    
+    //Array for search
+    const [filteredUsers, setFilteredUsers] = useState([])
+
+    
+    //used for search bar
+    const [search, setSearch] = useState("");
 
     //Gets Users from DB
     useEffect(() => { 
@@ -11,11 +18,28 @@ function FindUser() {
             setUsers(snapshot.docs.map(doc => doc.data()))  
         })
     }, [])
+
+    useEffect(() => {
+        setFilteredUsers(
+          users.filter((user) =>
+            user.name.toLowerCase().includes(search.toLowerCase())
+          )
+        )
+
+      }, [search, users]);
     
     
     return (
         <div>
-            {users.map((user) =>(
+            <div className="searchbar">
+                <input
+                    type="text"
+                    placeholder="Search for a User"
+                    onChange={(e) => setSearch(e.target.value)}
+                />
+                <i className="fas fa-search" id="searchGlass"></i>
+            </div>
+            {filteredUsers.map((user) =>(
                 <div className ="user-board">
                     <div className ="img-container">
                         <img className = "profile-pic" alt="profile pic" src={user.pic} />
