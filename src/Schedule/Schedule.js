@@ -77,7 +77,7 @@ function Schedule({email}) {
                         value = {date}
                         onChange={setDate}
                     />     
-                <button onClick = {showSchedule}>Select Times</button>
+                <button className ="schedBTN"onClick = {showSchedule}>Select Times</button>
                 </div>
                 
                 ):(
@@ -103,8 +103,8 @@ function Schedule({email}) {
                 
             </select>
             
-            <button onClick = {showSchedule}>Back</button>
-            <button onClick ={() => getValues()}>Enter Availibility</button>
+            <button className ="schedBTN"onClick = {showSchedule}>Back</button>
+            <button className = "schedBTN"onClick ={() => getValues()}>Enter Availibility</button>
             </div>
 
                 )}
