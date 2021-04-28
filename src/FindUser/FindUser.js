@@ -39,22 +39,26 @@ function FindUser() {
                 />
                 <i className="fas fa-search" id="searchGlass"></i>
             </div>
-            {filteredUsers.map((user) =>(
-                <div className ="user-board">
-                    <div className ="img-container">
-                        <img className = "profile-pic" alt="profile pic" src={user.pic} />
+            {filteredUsers.length === 0 ? (
+                <h3 style={{color: "white"}}>Sorry, no users have been found.</h3>
+            ) : (
+                filteredUsers.map((user) => (
+                    <div className ="user-board">
+                        <div className ="img-container">
+                            <img className = "profile-pic" alt="profile pic" src={user.pic} />
+                        </div>
+                        <div>
+                            {user.name}
+                        </div>
+                        <div>
+                            View Schedule!
+                        </div>
+                        
                     </div>
-                    <div>
-                        {user.name}
-                    </div>
-                    <div>
-                        View Opennings!
-                    </div>
-                    
-                </div>
+                ))
             )
-            
-            )}
+            }   
+           
         </div>
     )
 }

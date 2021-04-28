@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect} from 'react'
+import React, { useState, useEffect} from 'react'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
 import './Schedule.css';
@@ -7,18 +7,16 @@ import {connect} from "react-redux"
 import { db } from "../firebase"
 import firebase from "firebase"
 
-import { $CombinedState } from 'redux';
 
-function Schedule({email}) {
+function Schedule({email, username, userInfo}) {
     const [schedule, editSchedule] = useState(true)
-    const[date,setDate] = useState(new Date());
-    const[openning,setOpenning] = useState(["12:30","1:15","6:45"])
-    
-     //Default Time Slots
-     const [timeSlots,setTimeSlots] = useState([])
+    const [date, setDate] = useState(new Date());
+    const [timeSlots, setTimeSlots] = useState([])  //Default Time Slots
+    const userRef = db.collection("users")
+    const [datesMeeting, setDatesMeeting] = useState({})
 
     //Creating Time Slots
-    const createSlots = (fromTime,toTime) =>{
+    const createSlots = (fromTime, toTime) =>{
         let start = moment(fromTime, 'hh:mm A');
         let end = moment(toTime, 'hh:mm A');
         if (end.isBefore(start)){
@@ -34,86 +32,92 @@ function Schedule({email}) {
 
     useEffect(() => {
         setTimeSlots(createSlots('8:00 AM', '6:00 PM'));
-
     }, [])
 
-
+    useEffect(() => {
+        userRef.doc(email).get((doc) => {
+            setDatesMeeting(doc.data().meetings)
+        })
+    }, [date])
     function showSchedule(){
         editSchedule(!schedule)
     }
     
-    function getValues(){
-        const userRef = db.collection("users")
+    function enterSchedule(){
 
-            var form = document.getElementById('timeList')[0];
-            var selected = [];
-            //Gets all selected values... want to store this in database 
-            for (var option of document.getElementById('timeList').options)
-            {
-                if (option.selected) {
-                    selected.push(option.value);
-                }
+        const startTime = document.getElementById("start").value
+        const endTime = document.getElementById("end").value
+        const meetingDescription = document.getElementById("meeting-name").value
+        const maxNumOfPeople = document.getElementById("num-people").value
+        const zoomLink = document.getElementById("zoom-link").value
+        const people = []
+        let data = {startTime, endTime, meetingDescription, maxNumOfPeople, zoomLink, people}
+
+        console.log(data)
+
+        //Create a new 'date' object with appointments
+        userRef.doc(email).set({
+            [date.toUTCString().substring(0,16)]: {
+                [data.startTime]: data
             }
-            //Create a new 'date' object with appointments
-            userRef.doc(email).set({
-                [date.toUTCString().substring(0,16)]: selected
-            },{ merge: true })
-
-
-
-
-
-
+        }, { merge: true })
+        editSchedule(!schedule)
     }   
         
-        return (
-            <div>
-                <div className = "simpleBorder">
-                        {date.toUTCString().substring(0,16)}
-                </div>
-                {schedule ? (
+    return (
+        <div className="scheduler">
+            <div className = "simpleBorder">
+                {date.toUTCString().substring(0,16)}
+            </div>
+
+            {schedule ? (
                 <div className="calendarPos">
                     <Calendar 
                         value = {date}
-                        onChange={setDate}
+                        onChange = {setDate}
                     />     
-                <button className ="schedBTN"onClick = {showSchedule}>Select Times</button>
+                    <button className ="schedBTN" onClick = {showSchedule}>Create Openning</button>
                 </div>
-                
-                ):(
-
+            ) : (
                 <div>
-            <h2>Select Available Times:</h2>
-            <select id ="timeList" multiple="yes" size={timeSlots.length + 1}>
-            {timeSlots.map((time,index) =>{
-                if(timeSlots[index + 1]){
-                    return(
-                        <option value={timeSlots[index] + ' - ' + timeSlots[index + 1]} className = "slot">
-                            {timeSlots[index] + ' - ' + timeSlots[index+1]}
-                        </option>
-                    )
-                }
-                else{
-                    return (
-                        console.log('empty')
-                    )
-                }
-                
-                })}
-                
-            </select>
-            
-            <button className ="schedBTN"onClick = {showSchedule}>Back</button>
-            <button className = "schedBTN"onClick ={() => getValues()}>Enter Availibility</button>
-            </div>
+                    <form id="form">
+                        <fieldset>
+                            <label>Starting Time</label>
+                            <input id="start" type="time" placeholder="Starting time"></input>
+                            
+                            <label>Ending Time</label>
+                            <input id="end" type="time" placeholder="Ending time"></input>
 
-                )}
+                            <label>Meeting Name</label>
+                            <input id="meeting-name" type="text" placeholder="Meeting Name"></input>
 
-                
-            </div>
-        )
+                            <label>Max Number of People</label>
+                            <input id="num-people" type="number" min="0" max="50" placeholder="Max number of people"></input>
+                            
+                            <label>Meeting Description</label>
+                            <textarea
+                                    id="description"
+                                    rows="3"
+                                    cols="50"
+                                    maxLength="144"
+                                    type="text" 
+                                    placeholder="Notes about meeting">
+                            </textarea>
+
+                            <label>Personal Zoom Link</label>
+                            <input id="zoom-link" type="text" placeholder="www.zoom.us/"></input>
+                            <p>Important: Not inputing a zoom link will generate a random one for the meeting</p>
+                        </fieldset>
+                        <button className ="schedBTN"onClick = {showSchedule}>Back</button>
+                        <button className = "schedBTN"onClick ={() => enterSchedule()}>Submit Openning</button>
+                    </form>
+                </div>
+            )}        
+        </div>
+    )
     
 }
+
 const mapStateToProps = (state) => ({
     username: state.username,
     email: state.email,

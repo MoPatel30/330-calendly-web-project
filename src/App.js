@@ -8,15 +8,14 @@ import FindUser from './FindUser/FindUser';
 
 function App({username,userInfo}) {
   return (
-    
     <div className="App">
       {username ? (
       <Router>
         <div>
           <header >
             <h1 className="title">iCalendar
-              <br/>Hello, {username}
-              </h1>
+            <br/>Hello, {username}!
+            </h1>
             
             <Link className ="optionBox" to="/find" >Find a User!</Link>
             <Link className ="optionBox" to="/profile" >Make Opennings!</Link>
@@ -24,27 +23,23 @@ function App({username,userInfo}) {
               <a>
                 <img className="home-pro-pic" alt="profile pic" src={userInfo.photoURL} />
               </a>
-          </Link>   
-          
+            </Link>     
           </header>
-
-          
-          
 
           <Route path="/find"  component={FindUser} />
           <Route path="/profile"  component={Profile} />
         </div>
       </Router>
-      ):(
+      ) : (
         <div>
           <Login />
         </div>
-      
       )
       }
     </div>
   );
 }
+
 const mapStateToProps = (state) => ({
   username: state.username,
   userInfo: state.userInfo

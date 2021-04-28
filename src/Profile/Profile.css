@@ -12,3 +12,94 @@
     flex-direction: column;
 
 }
+#pro-pic{
+    border: 2px solid black;
+    border-radius: 50%;
+}
+.profile-section{
+    background: whitesmoke;
+    float: right;
+    position: relative;
+    right: 2vw;
+    top: 3vh;
+    border: 2px solid black;
+    border-radius: 10px;
+    width: fit-content;
+    padding: 1rem 2rem 1rem 2rem;
+}
+.schedule-maker{
+    float: left;
+    position: relative;
+    left: 2vw;
+    top: 3vh;
+}
+#right-profile-section{
+    float: right;
+    display: flex;
+    flex-direction: column;
+}
+#left-profile-section{
+    float: left;
+    display: flex;
+    flex-direction: column;
+}
+#upcoming-meetings{
+    border: 1px solid black;
+    background: #3fb5d3;
+    padding: 10%;
+    width: fit-content;
+    border-radius: 20px;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+#upcoming-meetings h2{
+    margin-bottom: 5%;
+}
+.info{
+    margin-right: 2.5rem;
+}
+#meeting-info{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: row;
+}
+#today-schedule{
+    border: 1px solid black;
+    background:#3fb5d3;
+    padding: 10%;
+    width: fit-content;
+    border-radius: 20px;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+#today-schedule h2{
+    margin-bottom: 5%;
+}
+#bio{
+    min-width:30vw;
+    max-width: 30vw;
+
+}
+
+.background-color{
+    background: rgb(255, 103, 103);
+    padding: 10%;
+    width:100%;
+    border-radius: 20px;
+    margin-top: 5%;
+}
+.dates{
+    width: 100%;
+    background:white;
+    text-align: left;
+    padding: 2%;
+    border-radius: 10px;
+    margin-bottom: 4%;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+}
+
+.dates p{
+    margin-left: 1rem;
+}

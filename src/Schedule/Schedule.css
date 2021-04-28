@@ -3,8 +3,8 @@
     background-color: aliceblue;
     padding: 1%;
     border-radius: 2rem;
-    border: 1px black;
-    box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+    border: 1px solid black;
+    box-shadow: rgba(0, 0, 0, 0.26) 3px 3px 3px 3px;
     margin-bottom: 1rem;
 }
 .react-calendar{
@@ -19,7 +19,9 @@
     border-radius: 1rem;
     padding:1%;
 }
-
+button{
+    cursor: pointer;
+}
 .slot{
     border: 0px solid black;
     border-radius: 2rem;
@@ -28,13 +30,29 @@
     margin-bottom:4%;
     padding: 2%;
     background: aliceblue;
+    cursor: pointer;
 }
 #timeList{
     background: transparent;
     border: 0;
     width:50%;
     display: flex;
+    cursor: pointer;
 }
 select:focus{
     outline:none;
+}
+.scheduler{
+    border: 2px solid black;
+    background: whitesmoke;
+    width: fit-content;
+    padding: 4rem;
+    border-radius: 40px;
+}
+fieldset{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: nowrap;
 }
