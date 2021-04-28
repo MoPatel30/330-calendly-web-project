@@ -1,12 +1,53 @@
+import React, {useEffect} from "react"
 import './App.css';
 import {connect} from "react-redux"
 import Profile from "./Profile/Profile.js"
 import { Login } from './Login/Login';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom"
 import FindUser from './FindUser/FindUser';
+import {auth, db} from "./firebase.js"
+import store from "./Redux/index"
+import firebase from "firebase"
 
 
 function App({username,userInfo}) {
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) { 
+        var docRef = db.collection("users").doc(user.email);
+  
+        docRef.get().then((doc) => {
+          store.dispatch({  
+              type: "ADD_POST",
+              payload: {
+                  username: user.displayName,
+                  email: user.email,
+                  userInfo: user,
+              } 
+          }) 
+        })
+      }
+    })
+  }, [])
+
+  function signOut(){
+    firebase.auth().signOut().then(function() {
+      store.dispatch({  
+        type: "ADD_POST",
+        payload: {
+            username: "",
+            email: "",
+            userInfo: "not logged in",
+        } 
+    }) 
+      // Sign-out successful.
+    }).catch(function(error) {
+      // An error happened.
+    });
+  
+  }
+
   return (
     <div className="App">
       {username ? (
@@ -19,11 +60,12 @@ function App({username,userInfo}) {
             
             <Link className ="optionBox" to="/find" >Find a User!</Link>
             <Link className ="optionBox" to="/profile" >Make Opennings!</Link>
-            <Link to="/profile"> 
+            <Link to="/profile" style={{marginLeft: "30rem"}}> 
               <a>
                 <img className="home-pro-pic" alt="profile pic" src={userInfo.photoURL} />
               </a>
             </Link>     
+            <Link className ="optionBox" to="/profile" onClick={signOut}>Sign out</Link>
           </header>
 
           <Route path="/find"  component={FindUser} />

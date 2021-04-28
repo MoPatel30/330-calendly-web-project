@@ -11,54 +11,53 @@ import firebase from "firebase"
 function Schedule({email, username, userInfo}) {
     const [schedule, editSchedule] = useState(true)
     const [date, setDate] = useState(new Date());
-    const [timeSlots, setTimeSlots] = useState([])  //Default Time Slots
     const userRef = db.collection("users")
     const [datesMeeting, setDatesMeeting] = useState({})
 
-    //Creating Time Slots
-    const createSlots = (fromTime, toTime) =>{
-        let start = moment(fromTime, 'hh:mm A');
-        let end = moment(toTime, 'hh:mm A');
-        if (end.isBefore(start)){
-            end.add(1,'day');
-        }
-        let arr =[];
-        while(start <= end) {
-            arr.push(new moment(start).format('hh:mm A'));
-            start.add(1, 'hour');
-        }
-        return arr;
-    }
-
-    useEffect(() => {
-        setTimeSlots(createSlots('8:00 AM', '6:00 PM'));
-    }, [])
 
     useEffect(() => {
         userRef.doc(email).get((doc) => {
             setDatesMeeting(doc.data().meetings)
         })
     }, [date])
+
     function showSchedule(){
         editSchedule(!schedule)
     }
-    
-    function enterSchedule(){
 
+    function tConvert (time) {
+        // Check correct time format and split into components
+        time = time.toString ().match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+      
+        if (time.length > 1) { // If time format correct
+          time = time.slice (1);  // Remove full string match value
+          time[5] = +time[0] < 12 ? 'AM' : 'PM'; // Set AM/PM
+          time[0] = +time[0] % 12 || 12; // Adjust hours
+        }
+        return time.join (''); // return adjusted time or original string
+    }
+
+    function enterSchedule(e){
+        e.preventDefault()
         const startTime = document.getElementById("start").value
         const endTime = document.getElementById("end").value
-        const meetingDescription = document.getElementById("meeting-name").value
         const maxNumOfPeople = document.getElementById("num-people").value
-        const zoomLink = document.getElementById("zoom-link").value
+        const meetingName = document.getElementById("meeting-name").value
+        const meetingDescription = document.getElementById("description").value
+        let zoomLink = document.getElementById("zoom-link").value
         const people = []
-        let data = {startTime, endTime, meetingDescription, maxNumOfPeople, zoomLink, people}
 
+        if(zoomLink.length === 0){
+            zoomLink = "https://zoom.us/"
+        }
+        let data = {startTime, endTime, maxNumOfPeople, meetingName, meetingDescription, zoomLink, people}
+        
         console.log(data)
 
         //Create a new 'date' object with appointments
         userRef.doc(email).set({
             [date.toUTCString().substring(0,16)]: {
-                [data.startTime]: data
+                [data.meetingName]: data
             }
         }, { merge: true })
         editSchedule(!schedule)
@@ -88,12 +87,12 @@ function Schedule({email, username, userInfo}) {
                             <label>Ending Time</label>
                             <input id="end" type="time" placeholder="Ending time"></input>
 
-                            <label>Meeting Name</label>
-                            <input id="meeting-name" type="text" placeholder="Meeting Name"></input>
-
                             <label>Max Number of People</label>
                             <input id="num-people" type="number" min="0" max="50" placeholder="Max number of people"></input>
                             
+                            <label>Meeting Name</label>
+                            <input id="meeting-name" type="text" placeholder="Meeting Name"></input>
+
                             <label>Meeting Description</label>
                             <textarea
                                     id="description"
@@ -109,7 +108,7 @@ function Schedule({email, username, userInfo}) {
                             <p>Important: Not inputing a zoom link will generate a random one for the meeting</p>
                         </fieldset>
                         <button className ="schedBTN"onClick = {showSchedule}>Back</button>
-                        <button className = "schedBTN"onClick ={() => enterSchedule()}>Submit Openning</button>
+                        <button className = "schedBTN"onClick ={(e) => enterSchedule(e)}>Submit Openning</button>
                     </form>
                 </div>
             )}        

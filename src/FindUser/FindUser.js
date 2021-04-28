@@ -4,15 +4,16 @@ import Dialog from '@material-ui/core/Dialog';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Calendar from 'react-calendar'
-
-
 import './FindUser.css'
-function FindUser() {
-   
-    const [users,setUsers] = useState([]);
+import {connect} from "react-redux"
+import firebase from "firebase"
+
+
+function FindUser({email, username, userInfo}) {
+    const [users, setUsers] = useState([]);
     //Variable for true/false if open + The clicked user info
     const [open, setOpen] = useState(false);
-    const [clickUser,setClickUser] = useState([])
+    const [clickUser, setClickUser] = useState(undefined)
 
     //start time val for DB
     var  startTime = [];
@@ -52,19 +53,42 @@ function FindUser() {
       
     //Gets Users from DB
     useEffect(() => { 
-        db.collection('users').onSnapshot(snapshot => {          
-            setUsers(snapshot.docs.map(doc => doc.data()))  
+        db.collection('users').onSnapshot(snapshot => {  
+            setUsers(snapshot.docs.map(doc => doc))  
         })
     }, [])
 
-    useEffect(() => {
+    useEffect(() => { 
         setFilteredUsers(
-          users.filter((user) =>
-            user.name.toLowerCase().includes(search.toLowerCase())
-          )
+            users.filter((user) =>
+            user.data().name.toLowerCase().includes(search.toLowerCase())
+            )
         )
-
       }, [search, users]);
+    
+    function joinMeeting(dayName, meetingName){
+        db.collection('users').doc(email).set({
+            meeting: {
+                [dayName]: {
+                    [clickUser.data()[dayName][meetingName].meetingName]: {
+                        description: clickUser.data()[dayName][meetingName].meetingDescription,
+                        end_time: clickUser.data()[dayName][meetingName].endTime,
+                        start_time: clickUser.data()[dayName][meetingName].startTime,
+                        zoom_link: clickUser.data()[dayName][meetingName].zoomLink,
+                        creator: clickUser.id
+                    }
+                }
+            }
+        }, {merge: true})
+
+        db.collection('users').doc(clickUser.id).set({
+            [dayName]: {
+                [meetingName]: {
+                    people: firebase.firestore.FieldValue.arrayUnion(email)
+                }
+            }
+        }, {merge: true})
+    }
     
     
     return (
@@ -84,16 +108,10 @@ function FindUser() {
                 filteredUsers.map((user) => (
                     <div className ="user-board">
                         <div className ="img-container">
-                            <img className = "profile-pic" alt="profile pic" src={user.pic} />
+                            <img className = "profile-pic" alt="profile pic" src={user.data().pic} />
                         </div>
                         <div>
-                            {user.name}
-                        </div>
-                        <div>
-                            View Schedule!
-                        </div>  
-                        <div>
-                            {user.name}
+                            {user.data().name}
                         </div>
                         <div onClick={() => handleClickOpen(user)} className="view-btn">
                             View Opennings!
@@ -109,47 +127,74 @@ function FindUser() {
                     </IconButton>
                 </Toolbar>
                 <div className="title-open">
-                    Check Out {clickUser.name}'s Schedule
-                    <Calendar 
-                        value = {calDate}
-                        onChange={setCalDate}
-                    /> 
-                    {clickUser[dayName] ? (
-                    //sets the second param for db access
-                    Object.keys(clickUser[dayName]).map( (key) => (
-                        startTime.push(key)
-                    )),
-                    //display contents of second param usgin clickUser[dayName][startTime].name,.X.Y.Z....
-                    startTime.map((time) =>(
-                        <div style={{color: "blue", borderBottom: "1px solid black"}}>
+                   <div>
+
+                    {clickUser !== undefined ? (
+                        <div>
                             <div>
-                            Duration: {tConvert(time)} - {tConvert(clickUser[dayName][time].endTime)}
+                                <h2 style={{textAlign: "center", marginBottom: "3%"}}>{clickUser.data().name}'s Schedule</h2> 
+                                    <Calendar 
+                                        value = {calDate}
+                                        onChange={setCalDate}
+                                    /> 
                             </div>
-                            <div>
-                            Number of People allowed: {clickUser[dayName][time].maxNumOfPeople}
+                            
+                            <div style={{marginTop: "5%"}}>
+                                {clickUser.data()[dayName] ? (
+                                //sets the second param for db access
+                                Object.keys(clickUser.data()[dayName]).map( (key) => (
+                                    startTime.push(key)
+                                )),
+                                //display contents of second param usgin clickUser[dayName][startTime].name,.X.Y.Z....
+                                startTime.length === 0 ? (
+                                    <div style={{textAlign: "center"}}>{clickUser.data().name} has no meetings planned!</div>
+                                ) : (
+                                startTime.map((meetingName) =>(
+                                    <div id="time-slot">
+                                        <div>
+                                        Meeting Name: {meetingName}
+                                        </div>
+                                        <div>
+                                        Duration: {tConvert(clickUser.data()[dayName][meetingName].startTime)} - {tConvert(clickUser.data()[dayName][meetingName].endTime)}
+                                        </div>
+                                        <div>
+                                        Current Number of People: {clickUser.data()[dayName][meetingName].people.length} / {clickUser.data()[dayName][meetingName].maxNumOfPeople}
+                                        </div>
+                                        <div style={{maxWidth: "50vw", minWidth: "50vw"}}>
+                                        Description: {clickUser.data()[dayName][meetingName].meetingDescription}
+                                        </div>
+                                        <div>
+                                        Zoom Link: Will be provided after join meeting session
+                                        </div>    
+                                        {console.log(clickUser.data().name, username)} 
+                                        { clickUser.data()[dayName][meetingName].people.length < clickUser.data()[dayName][meetingName].maxNumOfPeople ? (
+                                            <button className="optionBox" style={{marginTop: "2%", marginBottom: "2%"}} onClick={() => joinMeeting(dayName, meetingName)}>Join Meeting</button>
+                                        ) : (
+                                            <p></p>
+                                        )
+                                        }                    
+                                    </div>
+                                )))
+                                ) : (
+                                    <div style={{marginLeft: "9rem"}}>{clickUser.data().name} has no meetings planned!</div>
+                                )} 
                             </div>
-                            <div>
-                            People Joined: {clickUser[dayName][time].people.map((person)=>(
-                                <span>{person}</span>
-                            ))}
-                            </div>
-                            <div>
-                            Description: {clickUser[dayName][time].meetingDescription}
-                            </div>
-                            <div>
-                            Zoom Link: {clickUser[dayName][time].zoomLink}
-                            </div>                         
                         </div>
-                    ))
-                    ) : (
-                        <div>No Opennings Here!</div>
-                    )}              
+                     ) : (
+                         <p></p>
+                     )}  
+                    </div>          
                 </div>
             </Dialog> 
         </div>
     )
 }
 
-  
 
-export default FindUser
+const mapStateToProps = (state) => ({
+    username: state.username,
+    email: state.email,
+    userInfo: state.userInfo
+})
+
+export default  connect(mapStateToProps)(FindUser)

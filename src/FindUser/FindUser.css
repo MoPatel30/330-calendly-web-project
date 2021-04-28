@@ -50,8 +50,26 @@ input:focus{
     padding:1.5%;
     background: #69c470;
     border-radius: 1rem;
+    cursor: pointer;
 }
 .title-open{
     color:red;
     margin-top: 0;
+    display: flex;
+    flex-direction: row;
+}
+#time-slot{
+    color: black;
+    background: whitesmoke;
+    border: 1px solid black;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+#time-slot div{
+    margin-left: 5px;
 }

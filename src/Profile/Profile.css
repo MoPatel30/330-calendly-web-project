@@ -44,6 +44,10 @@
     flex-direction: column;
 }
 #upcoming-meetings{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     border: 1px solid black;
     background: #3fb5d3;
     padding: 10%;
@@ -51,9 +55,12 @@
     border-radius: 20px;
     margin-top: 5%;
     margin-bottom: 5%;
+    margin-left: 24px;
+    margin-right: 24px;
 }
 #upcoming-meetings h2{
     margin-bottom: 5%;
+    
 }
 .info{
     margin-right: 2.5rem;
@@ -65,10 +72,15 @@
     flex-direction: row;
 }
 #today-schedule{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     border: 1px solid black;
     background:#3fb5d3;
     padding: 10%;
     width: fit-content;
+  
     border-radius: 20px;
     margin-top: 5%;
     margin-bottom: 5%;
