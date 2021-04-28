@@ -123,7 +123,7 @@ function FindUser({email, username, userInfo}) {
                                     <br />
                                     <div id="spanner"> 
                                         <div onClick={() => handleClickOpen(user)} className="view-btn">
-                                            View Opennings!
+                                            View Openings!
                                         </div>                                
                                     </div>         
                                 </div>

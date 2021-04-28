@@ -41,10 +41,14 @@ function Profile({username, userInfo, email}) {
                 let newDate = day[0] + ", " + day[2] + " " + day[1] + " " + day[3]
                 setTodayDate(newDate)
                 console.log(newDate)
-                
-                setTodaySchedule(doc.data()[newDate])
-                setTodayMeetings(doc.data().meeting[newDate])
-                
+                if(doc.data()[newDate]){
+                    setTodaySchedule(doc.data()[newDate])
+                }
+                if(doc.data().meeting){              
+                    if(doc.data().meeting[newDate]){
+                        setTodayMeetings(doc.data().meeting[newDate])
+                    }
+                }
             } else {
                 // doc.data() will be undefined in this case
                 console.log("No such document!");

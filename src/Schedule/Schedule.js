@@ -75,7 +75,7 @@ function Schedule({email, username, userInfo}) {
                         value = {date}
                         onChange = {setDate}
                     />     
-                    <button className ="schedBTN" onClick = {showSchedule}>Create Openning</button>
+                    <button className ="schedBTN" onClick = {showSchedule}>Create Opening</button>
                 </div>
             ) : (
                 <div>
@@ -109,7 +109,7 @@ function Schedule({email, username, userInfo}) {
                             <p style={{color: "maroon"}}>Please input zoom link for planned meeting</p>
                         </fieldset>
                         <button className ="schedBTN"onClick = {showSchedule}>Back</button>
-                        <button className = "schedBTN"onClick ={(e) => enterSchedule(e)}>Submit Openning</button>
+                        <button className = "schedBTN"onClick ={(e) => enterSchedule(e)}>Submit Opening</button>
                     </form>
                 </div>
             )}        
