@@ -23,11 +23,24 @@ function DisplayUsers() {
             ) : (
                 users.map((instance) => (
                     <div>
-                        <div className="userInfo">
-                            <h3>{instance.data().display_name}</h3>
-                            <h3>{instance.data().name}</h3>
+                    <div className="flip-card">
+                        <div className="flip-card-inner">                      
+                            <div id="spanner">
+                                <h2><u>{instance.data().name}</u></h2>
+                                <hr style={{width: "100%"}} />
+                            </div>
+                            <br />
+                            <div id="Midspanner">                                 
+                               
+                            </div>
+                            <br />
+                            <hr style={{width: "100%"}} />
+                            <br />
+                            <div id="spanner">                                 
+                            </div>         
                         </div>
-                    </div>      
+                    </div>
+                </div>        
                 )))
             } 
         </div>

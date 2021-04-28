@@ -106,17 +106,28 @@ function FindUser({email, username, userInfo}) {
                 <h3 style={{color: "white"}}>Sorry, no users have been found.</h3>
             ) : (
                 filteredUsers.map((user) => (
-                    <div className ="user-board">
-                        <div className ="img-container">
-                            <img className = "profile-pic" alt="profile pic" src={user.data().pic} />
+                    <div>
+                        <div className="flip-card">
+                            <div className="flip-card-inner">                      
+                                <div id="spanner">
+                                    <h2><u>{user.data().name}</u></h2>
+                                    <hr style={{width: "100%"}} />
+                                </div>
+                                <br />
+                                <div id="Midspanner">                                 
+                                    <img className = "profile-pic" alt="profile pic" src={user.data().pic} />
+                                </div>
+                                <br />
+                                <hr style={{width: "100%"}} />
+                                <br />
+                                <div id="spanner"> 
+                                    <div onClick={() => handleClickOpen(user)} className="view-btn">
+                                        View Opennings!
+                                    </div>                                
+                                </div>         
+                            </div>
                         </div>
-                        <div>
-                            {user.data().name}
-                        </div>
-                        <div onClick={() => handleClickOpen(user)} className="view-btn">
-                            View Opennings!
-                        </div>
-                </div>
+                    </div>    
             )
             ))}
 
