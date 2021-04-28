@@ -41,9 +41,7 @@ function Profile({username, userInfo, email}) {
                 let newDate = day[0] + ", " + day[2] + " " + day[1] + " " + day[3]
                 setTodayDate(newDate)
                 console.log(newDate)
-                if(doc.data().meeting[newDate]){
-                    setTodayMeetings(doc.data().meeting[newDate])
-                }
+                
                 if(doc.data()[newDate]){
                     setTodaySchedule(doc.data()[newDate])
                 }
@@ -212,9 +210,9 @@ function Profile({username, userInfo, email}) {
                     <h1>Today's Schedule</h1>
                     <h2>{todayDate}</h2>
                     {todaySchedule === null ? (
-                         <p style={{color: "white"}}>You currently have no openings Scheduled. Use the calendar to create opennings!</p>
+                         <p style={{color: "white"}}>You currently have no openings Scheduled. Use the calendar to create openings!</p>
                     ) : Object.keys(todaySchedule).length === 0 ? (
-                        <p style={{color: "white"}}>You currently have no openings Scheduled. Use the calendar to create opennings!</p>
+                        <p style={{color: "white"}}>You currently have no openings Scheduled. Use the calendar to create openings!</p>
                     ) : (
                         Object.keys(todaySchedule).map((openning) => (
                             <div className="dates">

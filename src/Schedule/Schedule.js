@@ -87,12 +87,13 @@ function Schedule({email, username, userInfo}) {
                             <label>Ending Time</label>
                             <input id="end" type="time" placeholder="Ending time"></input>
 
+                            <br/>
                             <label>Max Number of People</label>
-                            <input id="num-people" type="number" min="0" max="50" placeholder="Max number of people"></input>
-                            
+                            <input id="num-people" type="number" min="0" max="50" placeholder="##"></input>
+                            <br/>
                             <label>Meeting Name</label>
                             <input id="meeting-name" type="text" placeholder="Meeting Name"></input>
-
+                            <br />
                             <label>Meeting Description</label>
                             <textarea
                                     id="description"

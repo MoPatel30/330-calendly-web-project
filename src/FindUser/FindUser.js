@@ -114,7 +114,7 @@ function FindUser({email, username, userInfo}) {
                             {user.data().name}
                         </div>
                         <div onClick={() => handleClickOpen(user)} className="view-btn">
-                            View Opennings!
+                            View Openings!
                         </div>
                 </div>
             )
