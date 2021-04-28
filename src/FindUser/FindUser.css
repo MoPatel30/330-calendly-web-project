@@ -46,3 +46,12 @@
 input:focus{
     outline: none;
 }
+.view-btn{
+    padding:1.5%;
+    background: #69c470;
+    border-radius: 1rem;
+}
+.title-open{
+    color:red;
+    margin-top: 0;
+}
