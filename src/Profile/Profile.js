@@ -41,12 +41,10 @@ function Profile({username, userInfo, email}) {
                 let newDate = day[0] + ", " + day[2] + " " + day[1] + " " + day[3]
                 setTodayDate(newDate)
                 console.log(newDate)
-                if(doc.data().meeting[newDate]){
-                    setTodayMeetings(doc.data().meeting[newDate])
-                }
-                if(doc.data()[newDate]){
-                    setTodaySchedule(doc.data()[newDate])
-                }
+                
+                setTodaySchedule(doc.data()[newDate])
+                setTodayMeetings(doc.data().meeting[newDate])
+                
             } else {
                 // doc.data() will be undefined in this case
                 console.log("No such document!");
@@ -108,11 +106,14 @@ function Profile({username, userInfo, email}) {
     }
    
     function deleteFromSchedule(openning){
-        if(todaySchedule[openning].people.length !== 0){
-            for(let user of todaySchedule[openning].people){
+        let peopleJoined = todaySchedule[openning].people
+        if(peopleJoined.length !== 0){
+            for(let user of peopleJoined){
                 db.collection('users').doc(user).set({
-                    [todayDate]: {   
-                        [openning]: firebase.firestore.FieldValue.delete()
+                    meeting: {
+                        [todayDate]: {   
+                            [openning]: firebase.firestore.FieldValue.delete()
+                        }
                     }
                 }, {merge: true})
             }
@@ -165,8 +166,12 @@ function Profile({username, userInfo, email}) {
                     ) 
                     : (
                         <div className="bio-section">
-                            <h3 id="bio">{occupation}</h3> 
-                            <EditIcon onClick={changeOccupation} style={{cursor: "pointer", marginLeft: "5px"}} />
+                            <span>
+                                <h3 id="bio">{occupation}</h3>          
+                            </span> 
+                            <span>
+                                <EditIcon onClick={changeOccupation} style={{cursor: "pointer", marginLeft: "5px"}} />
+                            </span>
                         </div>
                     )}    
                      {editBio ? (
@@ -187,8 +192,12 @@ function Profile({username, userInfo, email}) {
                     ) 
                     : (
                         <div className="bio-section">
-                            <h3 id="bio">{bio}</h3> 
-                            <EditIcon onClick={changeBio} style={{cursor: "pointer", marginLeft: "5px"}} />
+                            <span>
+                                <h3 id="bio">{bio}</h3> 
+                            </span>
+                            <span>
+                                <EditIcon onClick={changeBio} style={{cursor: "pointer", marginLeft: "5px"}} />
+                            </span>
                         </div>
                     )}    
              
@@ -212,9 +221,9 @@ function Profile({username, userInfo, email}) {
                     <h1>Today's Schedule</h1>
                     <h2>{todayDate}</h2>
                     {todaySchedule === null ? (
-                         <p style={{color: "white"}}>You currently have no openings Scheduled. Use the calendar to create opennings!</p>
+                         <p style={{color: "white"}}>You currently have no openings Scheduled. Use the calendar to create openings!</p>
                     ) : Object.keys(todaySchedule).length === 0 ? (
-                        <p style={{color: "white"}}>You currently have no openings Scheduled. Use the calendar to create opennings!</p>
+                        <p style={{color: "white"}}>You currently have no openings Scheduled. Use the calendar to create openings!</p>
                     ) : (
                         Object.keys(todaySchedule).map((openning) => (
                             <div className="dates">
@@ -224,7 +233,9 @@ function Profile({username, userInfo, email}) {
                                 <h4 className="info">Description: {todaySchedule[openning].meetingDescription}</h4>
                                 <h4>Zoom Link: {todaySchedule[openning].zoomLink}</h4>
                                 <h4>Current People: {todaySchedule[openning].people.length}/{todaySchedule[openning].maxNumOfPeople}</h4>
-                                <DeleteIcon onClick={() => deleteFromSchedule(openning)} style={{cursor: "pointer"}} />
+                                <div style={{float: "right"}}>
+                                    <DeleteIcon onClick={() => deleteFromSchedule(openning)} style={{cursor: "pointer"}} />                     
+                                </div>
                             </div>
                         ))       
                     )
@@ -239,6 +250,7 @@ function Profile({username, userInfo, email}) {
                 <div id="upcoming-meetings">
                     <h1>Upcoming Meetings Today</h1>
                     <h2>{todayDate}</h2>
+                    {console.log(todayMeetings)}
                     {todayMeetings === null ? (
                         <p style={{color: "white"}}>You currently have no upcoming meetings</p>    
                     ) :  Object.keys(todayMeetings).length === 0 ? ( 
@@ -257,7 +269,9 @@ function Profile({username, userInfo, email}) {
                                          {todayMeetings[meeting].zoom_link}
                                     </a>
                                 </h4>
-                                <DeleteIcon onClick={() => deleteFromMeeting(meeting)} style={{cursor: "pointer"}} />
+                                <div style={{float: "right"}}>
+                                    <DeleteIcon onClick={() => deleteFromMeeting(meeting)} style={{cursor: "pointer"}} />
+                                </div>
                             </div>
                         ))       
                     )

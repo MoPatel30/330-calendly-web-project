@@ -102,34 +102,37 @@ function FindUser({email, username, userInfo}) {
                 <i className="fas fa-search" id="searchGlass"></i>
             </div>
 
+            <div id="user-openings">
             {filteredUsers.length === 0 ? (
-                <h3 style={{color: "white"}}>Sorry, no users have been found.</h3>
-            ) : (
-                filteredUsers.map((user) => (
-                    <div>
-                        <div className="flip-card">
-                            <div className="flip-card-inner">                      
-                                <div id="spanner">
-                                    <h2><u>{user.data().name}</u></h2>
-                                    <hr style={{width: "100%"}} />
+                    <h3 style={{color: "white"}}>Sorry, no users have been found.</h3>
+                ) : (
+                    filteredUsers.map((user) => (
+                        <div>
+                            <div className="flip-card">
+                                <div className="flip-card-inner">                      
+                                    <div id="spanner">
+                                        <h2>{user.data().name}</h2>
+                                        <hr style={{width: "80%"}} />
+                                    </div>
+                                    <br />
+                                    <div id="Midspanner">                                 
+                                        <img className = "profile-pic" alt="profile pic" src={user.data().pic} />
+                                    </div>
+                                    <br />
+                                    <hr style={{width: "80%"}} />
+                                    <br />
+                                    <div id="spanner"> 
+                                        <div onClick={() => handleClickOpen(user)} className="view-btn">
+                                            View Opennings!
+                                        </div>                                
+                                    </div>         
                                 </div>
-                                <br />
-                                <div id="Midspanner">                                 
-                                    <img className = "profile-pic" alt="profile pic" src={user.data().pic} />
-                                </div>
-                                <br />
-                                <hr style={{width: "100%"}} />
-                                <br />
-                                <div id="spanner"> 
-                                    <div onClick={() => handleClickOpen(user)} className="view-btn">
-                                        View Opennings!
-                                    </div>                                
-                                </div>         
                             </div>
-                        </div>
-                    </div>    
-            )
-            ))}
+                        </div>    
+                )
+                ))}
+            </div>
+
 
             <Dialog style = {{maxWidth: "100%"}} fullScreen open = {open}>
                 <Toolbar style = {{maxWidth: "90%", margin: "0 auto"}}> 
@@ -150,7 +153,7 @@ function FindUser({email, username, userInfo}) {
                                     /> 
                             </div>
                             
-                            <div style={{marginTop: "5%"}}>
+                            <div style={{marginBottom: "5%"}}>
                                 {clickUser.data()[dayName] ? (
                                 //sets the second param for db access
                                 Object.keys(clickUser.data()[dayName]).map( (key) => (
@@ -175,7 +178,7 @@ function FindUser({email, username, userInfo}) {
                                         Description: {clickUser.data()[dayName][meetingName].meetingDescription}
                                         </div>
                                         <div>
-                                        Zoom Link: Will be provided after join meeting session
+                                        Zoom Link: Will be provided after joining meeting session
                                         </div>    
                                         {console.log(clickUser.data().name, username)} 
                                         { clickUser.data()[dayName][meetingName].people.length < clickUser.data()[dayName][meetingName].maxNumOfPeople ? (
@@ -187,7 +190,7 @@ function FindUser({email, username, userInfo}) {
                                     </div>
                                 )))
                                 ) : (
-                                    <div style={{marginLeft: "9rem"}}>{clickUser.data().name} has no meetings planned!</div>
+                                    <div style={{fontSize: "1.75rem", textAlign: "center"}}>{clickUser.data().name} has no meetings planned!</div>
                                 )} 
                             </div>
                         </div>

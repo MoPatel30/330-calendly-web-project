@@ -1,7 +1,7 @@
 .simpleBorder{
     width:fit-content; 
-    background-color: aliceblue;
-    padding: 1%;
+    background-color: whitesmoke;
+    padding: 2%;
     border-radius: 2rem;
     border: 1px solid black;
     box-shadow: rgba(0, 0, 0, 0.26) 3px 3px 3px 3px;
@@ -43,10 +43,14 @@ select:focus{
     outline:none;
 }
 .scheduler{
+    position: relative;
+    left: 10vw;
     border: 2px solid black;
     background: whitesmoke;
     width: fit-content;
-    padding: 4rem;
+    padding: 2rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
     border-radius: 40px;
 }
 fieldset{
@@ -55,4 +59,94 @@ fieldset{
     align-items: center;
     flex-direction: column;
     flex-wrap: nowrap;
+    border-radius: 1rem;
+    background-image: url(https://img.freepik.com/free-photo/watercolor-paper-texture_1194-5416.jpg?size=626&ext=jpg);
 }
+#meeting-name{
+    background: transparent;
+    border: 0px;
+    border-bottom: 1px solid #2a2c2d;
+}
+#description{
+    background: transparent;
+    border-radius: 0.5rem;
+}
+#zoom-link{
+    background: transparent;
+    border: 0px;
+    border-bottom: 1px solid #2a2c2d;
+}
+
+input[type=text] {
+  margin-bottom: 1%;
+}
+
+input[type=number] {
+    background-color: transparent;
+    border: 0px;
+    text-align: center;
+    border-bottom: 1px solid #2a2c2d;
+    color: #2a2c2d;
+    font-size: 14px;
+    font-family: helvetica;
+    width: 28%;
+    margin-bottom: 1%;
+  }
+
+
+input[type=time] {
+    background-color: transparent;
+    border: none;
+    color: #2a2c2d;
+    font-size: 14px;
+    font-family: helvetica;
+    width: 32%;
+    margin-bottom: 1%;
+  }
+  
+  /* Wrapper around the hour, minute, second, and am/pm fields as well as 
+  the up and down buttons and the 'X' button */
+  input[type=time]::-webkit-datetime-edit-fields-wrapper {
+    display: flex;
+  }
+  
+  /* The space between the fields - between hour and minute, the minute and 
+  second, second and am/pm */
+  input[type=time]::-webkit-datetime-edit-text {
+    padding: 19px 4px;
+  }
+  
+  /* The naming convention for the hour, minute, second, and am/pm field is
+  `-webkit-datetime-edit-{field}-field` */
+  
+  /* Hour */
+  input[type=time]::-webkit-datetime-edit-hour-field {
+    background-color: #b9d9e9;
+    border-radius: 15%;
+    padding: 19px 13px;
+  }
+  
+  /* Minute */
+  input[type=time]::-webkit-datetime-edit-minute-field {
+    background-color: #b9d9e9;
+    border-radius: 15%;
+    padding: 19px 13px;
+  }
+  
+  /* AM/PM */
+  input[type=time]::-webkit-datetime-edit-ampm-field {
+    background-color: #ce933b;
+    border-radius: 15%;
+    color: #fff;
+    padding: 19px 13px;
+  }
+  
+  /* 'X' button for resetting/clearing time */
+  input[type=time]::-webkit-clear-button {
+    display: none;
+  }
+  
+  /* Up/Down arrows for incrementing/decrementing the value */
+  input[type=time]::-webkit-inner-spin-button {
+    display: none;
+  }

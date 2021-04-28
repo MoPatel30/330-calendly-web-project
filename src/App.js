@@ -55,17 +55,19 @@ function App({username,userInfo}) {
         <div>
           <header >
             <h1 className="title">iCalendar
-            <br/>Hello, {username}!
+              <br/>
+              <span style={{fontSize: "1.4rem"}}>Hello, {username}!</span>
             </h1>
             
             <Link className ="optionBox" to="/find" >Find a User!</Link>
-            <Link className ="optionBox" to="/profile" >Make Opennings!</Link>
-            <Link to="/profile" style={{marginLeft: "30rem"}}> 
+            <Link className ="optionBox" to="/profile" >Make Openings!</Link>
+            <Link id="sign-pro" to="/profile" > 
               <a>
                 <img className="home-pro-pic" alt="profile pic" src={userInfo.photoURL} />
               </a>
+              <Link className ="optionBox" to="/profile" onClick={signOut}>Sign Out</Link>
             </Link>     
-            <Link className ="optionBox" to="/profile" onClick={signOut}>Sign out</Link>
+            
           </header>
 
           <Route path="/find"  component={FindUser} />

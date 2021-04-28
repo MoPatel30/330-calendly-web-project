@@ -20,10 +20,10 @@
     background: whitesmoke;
     float: right;
     position: relative;
-    right: 2vw;
+    right: 10vw;
     top: 3vh;
     border: 2px solid black;
-    border-radius: 10px;
+    border-radius: 40px;
     width: fit-content;
     padding: 1rem 2rem 1rem 2rem;
 }
@@ -55,8 +55,8 @@
     border-radius: 20px;
     margin-top: 5%;
     margin-bottom: 5%;
-    margin-left: 24px;
-    margin-right: 24px;
+    margin-left: 28px;
+    margin-right: 28px;
 }
 #upcoming-meetings h2{
     margin-bottom: 5%;
@@ -80,10 +80,11 @@
     background:#3fb5d3;
     padding: 10%;
     width: fit-content;
-  
     border-radius: 20px;
     margin-top: 5%;
     margin-bottom: 5%;
+    margin-left: 28px;
+    margin-right: 28px;
 }
 #today-schedule h2{
     margin-bottom: 5%;
@@ -93,7 +94,6 @@
     max-width: 30vw;
 
 }
-
 .background-color{
     background: rgb(255, 103, 103);
     padding: 10%;
@@ -105,13 +105,16 @@
     width: 100%;
     background:white;
     text-align: left;
-    padding: 2%;
     border-radius: 10px;
     margin-bottom: 4%;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
 }
 
-.dates p{
-    margin-left: 1rem;
+.dates h3, h4{
+    padding-left: 1rem;
+}
+
+label {
+    font-weight: 900;
 }
