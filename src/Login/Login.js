@@ -39,7 +39,9 @@ export const Login = (props) => {
                             db.collection("users").doc(result.user.email).set({
                                 name: result.user.displayName,
                                 display_name: result.user.displayName,
-                                pic: result.user.photoURL
+                                pic: result.user.photoURL,
+                                bio: "Edit Bio",
+                                occupation: "Edit Occupation"
 
                             })
                             .then(() => {

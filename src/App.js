@@ -59,13 +59,13 @@ function App({username,userInfo}) {
             </h1>
             
             <Link className ="optionBox" to="/find" >Find a User!</Link>
-            <Link className ="optionBox" to="/profile" >Make Opennings!</Link>
-            <Link to="/profile" style={{marginLeft: "30rem"}}> 
+            <Link className ="optionBox" to="/profile" >Make Openings!</Link>
+            <Link to="/profile" > 
               <a>
                 <img className="home-pro-pic" alt="profile pic" src={userInfo.photoURL} />
               </a>
             </Link>     
-            <Link className ="optionBox" to="/profile" onClick={signOut}>Sign out</Link>
+            
           </header>
 
           <Route path="/find"  component={FindUser} />
